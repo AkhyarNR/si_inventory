@@ -62,7 +62,7 @@
     <ul class="sidebar navbar-nav">
     <li class="nav-item">
     <a class="nav-link" href="<?php echo base_url('admin/chomepage_admin')?>">
-    <i class="fas fa-fw fa-tachometer"></i>
+    <i class="fas fa-fw fa-home"></i>
     <span>Home</span></a>
     </li>
 
