@@ -29,11 +29,6 @@
                 <div class="col-md-8">
                   <div class="form-group">
                     <input value="<?php echo $user->id_user; ?>" type="hidden" class="form-control" name="id_user">
-                    <label for="nama">Nama</label>
-                    <input value="<?php echo $user->nama; ?>" type="text" class="form-control" name="nama">
-                  </div>
-
-                     <div class="form-group">
                     <label for="username">Username</label>
                     <input value="<?php echo $user->username; ?>" type="text" class="form-control" name="username">
                   </div>

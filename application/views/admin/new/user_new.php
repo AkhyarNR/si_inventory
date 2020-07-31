@@ -18,11 +18,7 @@
 <div class="row">
 <div class="col-md-6">
 
-                  
-                  <div class="form-group">
-                    <label for="nama">Nama</label>
-                    <input value="" required="required" type="text" class="form-control" name="nama">
-                  </div>
+              
                   <div class="form-group">
                     <label for="username">Username</label>
                     <input value="" required="required" type="text" class="form-control" name="username">

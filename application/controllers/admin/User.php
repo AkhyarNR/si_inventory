@@ -1,13 +1,13 @@
 <?php
 
 class User extends CI_Controller{
-
+ 
 	function __construct(){
-		parent::__construct();
+		parent::__construct();		
 		$this->load->model("m_user");
-
+	
 	}
-
+ 
 
 	public function index(){
 		$data["user"] = $this->m_user->getAll();
@@ -22,7 +22,7 @@ class User extends CI_Controller{
 	public function add(){
 		$info = $this->m_user;
 		$info->save();
-		echo "<script>alert('Data berhasil disimpan.')</script>";
+		echo "<script>alert('Data berhasil disimpan.')</script>";	
 		redirect(base_url('admin/User'));
 	}
 
@@ -37,15 +37,13 @@ class User extends CI_Controller{
 
 	public function update(){
 		$id_user  = $this->input->post('id_user');
-		$nama = $this->input->post('nama');
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
 		$akses    = $this->input->post('akses');
 
 		$data = array(
-			'nama'     =>$nama,
 			'username' => $username,
-			'password' => md5($password),
+			'password' => $password,
 			'akses'    => $akses );
 
 		$where = array('id_user' => $id_user  );

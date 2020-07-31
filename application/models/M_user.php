@@ -9,7 +9,6 @@ class m_user extends CI_Model
 	{
 		$this->db->select('*');
 		$this->db->from('user');
-		 $this->db->order_by('id_user', 'desc');
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -18,9 +17,8 @@ class m_user extends CI_Model
 	public function save()
 	{
 		$post = $this->input->post();
-		$this->nama = $post["nama"];
 		$this->username = $post["username"];
-		$this->password = md5($post["password"]);
+		$this->password = $post["password"];
 		$this->akses    = $post["akses"];
 		$this->db->insert($this->_table, $this);
 	}
@@ -45,7 +43,6 @@ class m_user extends CI_Model
   public function get_keyword($keyword){
         $this->db->select('*');
         $this->db->from  ('user');
-         $this->db->or_like('nama',$keyword);
         $this->db->or_like('username',$keyword);
         $this->db->or_like('akses',$keyword);
        return $this->db->get()->result();

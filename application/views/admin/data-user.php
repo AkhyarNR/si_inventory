@@ -29,7 +29,6 @@
 			   <tr>
 				   <th>No</th>
 				   <th>Username</th>
-				   <th>Nama</th>
 				   <th>Password</th>  
 				   <th>Akses</th>  
 				   <th>Aksi</th>                   
@@ -40,7 +39,6 @@
 					  <tr>
 					  <td><?php echo $no++; ?></td>
 					  <td><?php echo $us->username ?></td>
-					   <td><?php echo $us->nama?></td>
 					  <td><?php echo $us->password ?></td>
 					  <td><?php echo $us->akses ?></td>
 					  <td>
