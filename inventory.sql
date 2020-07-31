@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Jul 30, 2020 at 10:36 AM
--- Server version: 10.1.34-MariaDB
--- PHP Version: 7.2.8
+-- Host: 127.0.0.1
+-- Generation Time: 31 Jul 2020 pada 15.27
+-- Versi Server: 10.1.16-MariaDB
+-- PHP Version: 5.5.38
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -19,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `testing_inventory`
+-- Database: `inventory`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kondisi_barang`
+-- Struktur dari tabel `kondisi_barang`
 --
 
 CREATE TABLE `kondisi_barang` (
@@ -34,7 +32,7 @@ CREATE TABLE `kondisi_barang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `kondisi_barang`
+-- Dumping data untuk tabel `kondisi_barang`
 --
 
 INSERT INTO `kondisi_barang` (`id_kondisi`, `kondisi`) VALUES
@@ -45,7 +43,7 @@ INSERT INTO `kondisi_barang` (`id_kondisi`, `kondisi`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `peminjaman`
+-- Struktur dari tabel `peminjaman`
 --
 
 CREATE TABLE `peminjaman` (
@@ -60,7 +58,7 @@ CREATE TABLE `peminjaman` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `peminjaman`
+-- Dumping data untuk tabel `peminjaman`
 --
 
 INSERT INTO `peminjaman` (`id_peminjaman`, `id_user`, `id_barang`, `jumlah`, `tanggal_pinjam`, `tanggal_kembali`, `status_pinjam`, `komfirmasi`) VALUES
@@ -69,7 +67,7 @@ INSERT INTO `peminjaman` (`id_peminjaman`, `id_user`, `id_barang`, `jumlah`, `ta
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pengumuman`
+-- Struktur dari tabel `pengumuman`
 --
 
 CREATE TABLE `pengumuman` (
@@ -80,7 +78,7 @@ CREATE TABLE `pengumuman` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `pengumuman`
+-- Dumping data untuk tabel `pengumuman`
 --
 
 INSERT INTO `pengumuman` (`id_pengumuman`, `judul`, `isi`, `time`) VALUES
@@ -90,7 +88,7 @@ INSERT INTO `pengumuman` (`id_pengumuman`, `judul`, `isi`, `time`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_alat`
+-- Struktur dari tabel `tb_alat`
 --
 
 CREATE TABLE `tb_alat` (
@@ -102,10 +100,20 @@ CREATE TABLE `tb_alat` (
   `jumlah` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `tb_alat`
+--
+
+INSERT INTO `tb_alat` (`id_alat`, `kode_barang`, `nama_barang`, `id_spesifikasi`, `id_kondisi`, `jumlah`) VALUES
+(18, 'A2001', 'Personal Computer', 1, 1, 7),
+(21, 'A2004', 'Personal Computer', 3, 1, 6),
+(22, 'A2005', 'Infocus Projector', 7, 2, 2),
+(23, 'A2006', 'Personal Computer', 4, 2, 3);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_alatkeluar`
+-- Struktur dari tabel `tb_alatkeluar`
 --
 
 CREATE TABLE `tb_alatkeluar` (
@@ -122,7 +130,7 @@ CREATE TABLE `tb_alatkeluar` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tb_alatkeluar`
+-- Dumping data untuk tabel `tb_alatkeluar`
 --
 
 INSERT INTO `tb_alatkeluar` (`id_alatkeluar`, `kode_barang`, `nama_barang`, `nomor_pengadaan`, `document`, `id_spesifikasi`, `id_kondisi`, `jumlah`, `lokasi`, `tanggal_keluar`) VALUES
@@ -133,30 +141,10 @@ INSERT INTO `tb_alatkeluar` (`id_alatkeluar`, `kode_barang`, `nama_barang`, `nom
 (22, 'A2002', 'Stavolt', '004/PLJ.17.20.20/PL17/KU/2018', 'BERITA_ACARA_MUTASI_BARANG.docx', 2, 1, 2, 'lab.KSI', '2020-06-23'),
 (23, 'A2001', 'Personal Computer', '002/PLJ.17.20.20/KSI/2016', 'BERITA_ACARA_MUTASI_BARANG.docx', 1, 2, 3, 'Tempat Service', '2020-06-23');
 
---
--- Triggers `tb_alatkeluar`
---
-DELIMITER $$
-CREATE TRIGGER `pengeluaran_barang` AFTER INSERT ON `tb_alatkeluar` FOR EACH ROW BEGIN
-     UPDATE tb_alatmasuk SET jumlah=jumlah-NEW.jumlah
- WHERE kode_barang=NEW.kode_barang;
- DELETE FROM tb_alatmasuk WHERE jumlah = 0;
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `update_barangkeluar` AFTER UPDATE ON `tb_alatkeluar` FOR EACH ROW BEGIN
-     UPDATE tb_alatmasuk SET jumlah=jumlah-NEW.jumlah
- WHERE kode_barang=NEW.kode_barang;
- DELETE FROM tb_alatmasuk WHERE jumlah = 0;
-END
-$$
-DELIMITER ;
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_alatmasuk`
+-- Struktur dari tabel `tb_alatmasuk`
 --
 
 CREATE TABLE `tb_alatmasuk` (
@@ -173,7 +161,7 @@ CREATE TABLE `tb_alatmasuk` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tb_alatmasuk`
+-- Dumping data untuk tabel `tb_alatmasuk`
 --
 
 INSERT INTO `tb_alatmasuk` (`id_alatmasuk`, `kode_barang`, `nama_barang`, `nomor_pengadaan`, `document`, `id_spesifikasi`, `id_kondisi`, `jumlah`, `sumber_barang`, `tanggal_masuk`) VALUES
@@ -185,7 +173,7 @@ INSERT INTO `tb_alatmasuk` (`id_alatmasuk`, `kode_barang`, `nama_barang`, `nomor
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_bahan`
+-- Struktur dari tabel `tb_bahan`
 --
 
 CREATE TABLE `tb_bahan` (
@@ -196,7 +184,7 @@ CREATE TABLE `tb_bahan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tb_bahan`
+-- Dumping data untuk tabel `tb_bahan`
 --
 
 INSERT INTO `tb_bahan` (`id_bahan`, `kode_barang`, `nama_barang`, `jumlah`) VALUES
@@ -205,7 +193,7 @@ INSERT INTO `tb_bahan` (`id_bahan`, `kode_barang`, `nama_barang`, `jumlah`) VALU
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_bahankeluar`
+-- Struktur dari tabel `tb_bahankeluar`
 --
 
 CREATE TABLE `tb_bahankeluar` (
@@ -219,7 +207,7 @@ CREATE TABLE `tb_bahankeluar` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tb_bahankeluar`
+-- Dumping data untuk tabel `tb_bahankeluar`
 --
 
 INSERT INTO `tb_bahankeluar` (`id_bahankeluar`, `kode_barang`, `nama_barang`, `jumlah`, `satuan`, `lokasi_tujuan`, `tanggal_keluar`) VALUES
@@ -227,53 +215,34 @@ INSERT INTO `tb_bahankeluar` (`id_bahankeluar`, `kode_barang`, `nama_barang`, `j
 (8, 'B2002', 'Bulpoin', 4, 'pack', 'Lab.KSI', '2020-06-23'),
 (9, 'B2003', 'Tinta ', 6, '', 'lab rpl', '2020-06-23');
 
---
--- Triggers `tb_bahankeluar`
---
-DELIMITER $$
-CREATE TRIGGER `insert` AFTER INSERT ON `tb_bahankeluar` FOR EACH ROW BEGIN
-     UPDATE tb_bahanmasuk SET jumlah=jumlah-NEW.jumlah
- WHERE kode_barang=NEW.kode_barang;
- DELETE FROM tb_bahanmasuk WHERE jumlah = 0;
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `update` AFTER UPDATE ON `tb_bahankeluar` FOR EACH ROW BEGIN
-     UPDATE tb_bahanmasuk SET jumlah=jumlah-NEW.jumlah
- WHERE kode_barang=NEW.kode_barang;
- DELETE FROM tb_bahanmasuk WHERE jumlah = 0;
-END
-$$
-DELIMITER ;
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_bahanmasuk`
+-- Struktur dari tabel `tb_bahanmasuk`
 --
 
 CREATE TABLE `tb_bahanmasuk` (
   `id_bahanmasuk` int(11) NOT NULL,
   `kode_barang` varchar(30) NOT NULL,
   `nama_barang` varchar(30) NOT NULL,
-  `jumlah` varchar(20) NOT NULL,
+  `jumlah` int(11) NOT NULL,
+  `satuan` varchar(15) NOT NULL,
   `asal_barang` varchar(50) NOT NULL,
   `tanggal_masuk` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tb_bahanmasuk`
+-- Dumping data untuk tabel `tb_bahanmasuk`
 --
 
-INSERT INTO `tb_bahanmasuk` (`id_bahanmasuk`, `kode_barang`, `nama_barang`, `jumlah`, `asal_barang`, `tanggal_masuk`) VALUES
-(8, 'B2002', 'Bulpoin', '-6', 'kasubag umum', '2020-06-23'),
-(9, 'B2003', 'Tinta  spidol', '6 pack', 'kasubag umum', '2020-06-23');
+INSERT INTO `tb_bahanmasuk` (`id_bahanmasuk`, `kode_barang`, `nama_barang`, `jumlah`, `satuan`, `asal_barang`, `tanggal_masuk`) VALUES
+(8, 'B2002', 'Bulpoin', 6, 'pack', 'kasubag umum', '2020-06-23'),
+(9, 'B2003', 'Tinta  spidol', 6, 'pack', 'kasubag umum', '2020-06-23');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_carousel`
+-- Struktur dari tabel `tb_carousel`
 --
 
 CREATE TABLE `tb_carousel` (
@@ -283,7 +252,7 @@ CREATE TABLE `tb_carousel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tb_carousel`
+-- Dumping data untuk tabel `tb_carousel`
 --
 
 INSERT INTO `tb_carousel` (`id_carousel`, `nama_carousel`, `gambar`) VALUES
@@ -295,7 +264,7 @@ INSERT INTO `tb_carousel` (`id_carousel`, `nama_carousel`, `gambar`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_jadwal`
+-- Struktur dari tabel `tb_jadwal`
 --
 
 CREATE TABLE `tb_jadwal` (
@@ -306,7 +275,7 @@ CREATE TABLE `tb_jadwal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tb_jadwal`
+-- Dumping data untuk tabel `tb_jadwal`
 --
 
 INSERT INTO `tb_jadwal` (`id_jadwal`, `praktikum`, `hari_waktu`, `tanggal`) VALUES
@@ -318,7 +287,7 @@ INSERT INTO `tb_jadwal` (`id_jadwal`, `praktikum`, `hari_waktu`, `tanggal`) VALU
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_modul_praktikum`
+-- Struktur dari tabel `tb_modul_praktikum`
 --
 
 CREATE TABLE `tb_modul_praktikum` (
@@ -332,7 +301,7 @@ CREATE TABLE `tb_modul_praktikum` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tb_modul_praktikum`
+-- Dumping data untuk tabel `tb_modul_praktikum`
 --
 
 INSERT INTO `tb_modul_praktikum` (`id_modul`, `nama_modul`, `document`, `prodi`, `tahun`, `semester`, `downloaded`) VALUES
@@ -346,7 +315,7 @@ INSERT INTO `tb_modul_praktikum` (`id_modul`, `nama_modul`, `document`, `prodi`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_spesifikasi`
+-- Struktur dari tabel `tb_spesifikasi`
 --
 
 CREATE TABLE `tb_spesifikasi` (
@@ -355,7 +324,7 @@ CREATE TABLE `tb_spesifikasi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tb_spesifikasi`
+-- Dumping data untuk tabel `tb_spesifikasi`
 --
 
 INSERT INTO `tb_spesifikasi` (`id_spesifikasi`, `spesifikasi`) VALUES
@@ -370,29 +339,29 @@ INSERT INTO `tb_spesifikasi` (`id_spesifikasi`, `spesifikasi`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Struktur dari tabel `user`
 --
 
 CREATE TABLE `user` (
   `id_user` int(11) NOT NULL,
   `username` varchar(25) NOT NULL,
-  `password` varchar(10) NOT NULL,
+  `password` varchar(50) NOT NULL,
   `akses` varchar(20) NOT NULL,
   `nama` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `user`
+-- Dumping data untuk tabel `user`
 --
 
 INSERT INTO `user` (`id_user`, `username`, `password`, `akses`, `nama`) VALUES
-(1, 'admin', 'admin', 'admin', NULL),
-(3, 'kalab', 'kalab', 'kalab', NULL),
-(5, 'user', 'user', 'user', 'Rizaldi Maulidia'),
-(6, 'e31171151', 'rpljti', 'user', NULL),
-(7, 'e31171224', 'rpljti', 'user', NULL),
-(8, 'e31171096', 'rpljti', 'user', NULL),
-(9, 'wahyu', 'wahyu', 'user', NULL);
+(1, 'admin', 'admin', 'admin', 'Hadi'),
+(3, 'kalab', 'kalab', 'user', 'Kepala Laboratorium'),
+(5, 'user', 'user', 'user', 'Fatimah'),
+(6, 'e31171151', 'rpljti', 'user', 'Umik'),
+(7, 'e31171224', 'rpljti', 'user', 'Syafrial'),
+(8, 'e31171096', 'rpljti', 'user', 'Dima Pinten Mifty'),
+(9, 'wahyu', 'wahyu', 'user', 'Wahyu');
 
 --
 -- Indexes for dumped tables
@@ -497,104 +466,90 @@ ALTER TABLE `user`
 --
 ALTER TABLE `peminjaman`
   MODIFY `id_peminjaman` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `pengumuman`
 --
 ALTER TABLE `pengumuman`
   MODIFY `id_pengumuman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
 --
 -- AUTO_INCREMENT for table `tb_alat`
 --
 ALTER TABLE `tb_alat`
-  MODIFY `id_alat` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `id_alat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `tb_alatkeluar`
 --
 ALTER TABLE `tb_alatkeluar`
   MODIFY `id_alatkeluar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
-
 --
 -- AUTO_INCREMENT for table `tb_alatmasuk`
 --
 ALTER TABLE `tb_alatmasuk`
   MODIFY `id_alatmasuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
-
 --
 -- AUTO_INCREMENT for table `tb_bahan`
 --
 ALTER TABLE `tb_bahan`
   MODIFY `id_bahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `tb_bahankeluar`
 --
 ALTER TABLE `tb_bahankeluar`
   MODIFY `id_bahankeluar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
 --
 -- AUTO_INCREMENT for table `tb_bahanmasuk`
 --
 ALTER TABLE `tb_bahanmasuk`
   MODIFY `id_bahanmasuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
 --
 -- AUTO_INCREMENT for table `tb_carousel`
 --
 ALTER TABLE `tb_carousel`
   MODIFY `id_carousel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
 --
 -- AUTO_INCREMENT for table `tb_jadwal`
 --
 ALTER TABLE `tb_jadwal`
   MODIFY `id_jadwal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
 -- AUTO_INCREMENT for table `tb_modul_praktikum`
 --
 ALTER TABLE `tb_modul_praktikum`
   MODIFY `id_modul` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
 --
 -- AUTO_INCREMENT for table `tb_spesifikasi`
 --
 ALTER TABLE `tb_spesifikasi`
   MODIFY `id_spesifikasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+--
 
 --
--- Constraints for dumped tables
---
-
---
--- Constraints for table `tb_alat`
+-- Ketidakleluasaan untuk tabel `tb_alat`
 --
 ALTER TABLE `tb_alat`
   ADD CONSTRAINT `tb_alat_ibfk_1` FOREIGN KEY (`id_spesifikasi`) REFERENCES `tb_spesifikasi` (`id_spesifikasi`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tb_alat_ibk_2` FOREIGN KEY (`id_kondisi`) REFERENCES `kondisi_barang` (`id_kondisi`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `tb_alatkeluar`
+-- Ketidakleluasaan untuk tabel `tb_alatkeluar`
 --
 ALTER TABLE `tb_alatkeluar`
   ADD CONSTRAINT `tb_alatkeluar_ibfk_1` FOREIGN KEY (`id_spesifikasi`) REFERENCES `tb_spesifikasi` (`id_spesifikasi`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tb_alatkeluar_ibfk_2` FOREIGN KEY (`id_kondisi`) REFERENCES `kondisi_barang` (`id_kondisi`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `tb_alatmasuk`
+-- Ketidakleluasaan untuk tabel `tb_alatmasuk`
 --
 ALTER TABLE `tb_alatmasuk`
   ADD CONSTRAINT `tb_alatmasuk_ibfk_1` FOREIGN KEY (`id_spesifikasi`) REFERENCES `tb_spesifikasi` (`id_spesifikasi`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tb_alatmasuk_ibfk_2` FOREIGN KEY (`id_kondisi`) REFERENCES `kondisi_barang` (`id_kondisi`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
