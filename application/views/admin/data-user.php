@@ -28,6 +28,7 @@
             <thead>
 			   <tr>
 				   <th>No</th>
+				   <th>Nama</th>
 				   <th>Username</th>
 				   <th>Password</th>  
 				   <th>Akses</th>  
@@ -38,6 +39,7 @@
 				<tbody>
 					  <tr>
 					  <td><?php echo $no++; ?></td>
+					  <td><?php echo $us->nama ?></td>
 					  <td><?php echo $us->username ?></td>
 					  <td><?php echo $us->password ?></td>
 					  <td><?php echo $us->akses ?></td>

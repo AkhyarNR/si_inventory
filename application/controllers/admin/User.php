@@ -37,11 +37,13 @@ class User extends CI_Controller{
 
 	public function update(){
 		$id_user  = $this->input->post('id_user');
+		$nama = $this->input->post('nama');
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
 		$akses    = $this->input->post('akses');
 
 		$data = array(
+			'nama' => $nama,
 			'username' => $username,
 			'password' => $password,
 			'akses'    => $akses );
